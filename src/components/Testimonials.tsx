@@ -1,6 +1,7 @@
 import { Star, Quote } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const testimonials = [
   {
@@ -42,6 +43,7 @@ const testimonials = [
 ];
 
 export const Testimonials = () => {
+  const { t } = useLanguage();
   return (
     <section className="py-16 bg-gradient-to-br from-background to-muted/20">
       <div className="container mx-auto px-4">
@@ -49,14 +51,14 @@ export const Testimonials = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
             <Quote className="w-4 h-4 text-primary" />
-            <span className="text-primary text-sm font-medium">Témoignages</span>
+            <span className="text-primary text-sm font-medium">{t('testimonials.badge')}</span>
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Ce que disent nos utilisateurs
+            {t('testimonials.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Découvrez pourquoi plus de 50 000 Togolais font confiance à LinkaMarket pour leurs achats quotidiens
+            {t('testimonials.subtitle')}
           </p>
         </div>
 
@@ -109,16 +111,16 @@ export const Testimonials = () => {
             <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
               <Star className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-xl font-bold text-foreground mb-2">4.8/5 étoiles</h3>
-            <p className="text-muted-foreground">Note moyenne sur plus de 10 000 avis</p>
+            <h3 className="text-xl font-bold text-foreground mb-2">{t('testimonials.trust.rating')}</h3>
+            <p className="text-muted-foreground">{t('testimonials.trust.rating.desc')}</p>
           </div>
 
           <div className="text-center">
             <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
               <Quote className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-xl font-bold text-foreground mb-2">95% satisfaits</h3>
-            <p className="text-muted-foreground">Taux de satisfaction client</p>
+            <h3 className="text-xl font-bold text-foreground mb-2">{t('testimonials.trust.satisfaction')}</h3>
+            <p className="text-muted-foreground">{t('testimonials.trust.satisfaction.desc')}</p>
           </div>
 
           <div className="text-center">
@@ -127,8 +129,8 @@ export const Testimonials = () => {
                 <span className="text-primary font-bold text-sm">TG</span>
               </div>
             </div>
-            <h3 className="text-xl font-bold text-foreground mb-2">100% Togolais</h3>
-            <p className="text-muted-foreground">Plateforme locale et fière de l'être</p>
+            <h3 className="text-xl font-bold text-foreground mb-2">{t('testimonials.trust.local')}</h3>
+            <p className="text-muted-foreground">{t('testimonials.trust.local.desc')}</p>
           </div>
         </div>
       </div>

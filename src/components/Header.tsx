@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ShoppingCart, Menu, X, User, LogIn } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, User, LogIn, Globe } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -13,6 +14,7 @@ import {
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border">
@@ -34,7 +36,7 @@ export const Header = () => {
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Rechercher des produits..."
+                placeholder={t('header.search.placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 rounded-full border-border focus:ring-primary"
@@ -45,11 +47,29 @@ export const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/products" className="text-foreground hover:text-primary transition-smooth">
-              Produits
+              {t('header.products')}
             </Link>
             <Link to="/merchants" className="text-foreground hover:text-primary transition-smooth">
-              Commerçants
+              {t('header.merchants')}
             </Link>
+            
+            {/* Language Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <Globe className="w-4 h-4" />
+                  <span className="hidden lg:inline">{language.toUpperCase()}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-32">
+                <DropdownMenuItem onClick={() => setLanguage('fr')} className={language === 'fr' ? 'bg-primary/10' : ''}>
+                  🇫🇷 Français
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('en')} className={language === 'en' ? 'bg-primary/10' : ''}>
+                  🇬🇧 English
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             
             {/* Cart */}
             <Link to="/cart" className="relative p-2 hover:bg-muted rounded-lg transition-smooth">
@@ -64,17 +84,17 @@ export const Header = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-2">
                   <User className="w-4 h-4" />
-                  <span className="hidden lg:inline">Mon compte</span>
+                  <span className="hidden lg:inline">{t('header.account')}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem>
                   <LogIn className="w-4 h-4 mr-2" />
-                  Se connecter
+                  {t('header.login')}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <User className="w-4 h-4 mr-2" />
-                  Créer un compte
+                  {t('header.register')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -99,7 +119,7 @@ export const Header = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Rechercher des produits..."
+                  placeholder={t('header.search.placeholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 pr-4 rounded-full"
@@ -109,22 +129,31 @@ export const Header = () => {
               {/* Mobile Navigation */}
               <nav className="space-y-2">
                 <Link to="/products" className="block py-2 text-foreground hover:text-primary transition-smooth">
-                  Produits
+                  {t('header.products')}
                 </Link>
                 <Link to="/merchants" className="block py-2 text-foreground hover:text-primary transition-smooth">
-                  Commerçants
+                  {t('header.merchants')}
                 </Link>
                 <Link to="/cart" className="flex items-center py-2 text-foreground hover:text-primary transition-smooth">
                   <ShoppingCart className="w-4 h-4 mr-2" />
-                  Panier (3)
+                  {t('header.cart')} (3)
                 </Link>
                 <div className="pt-2 border-t border-border">
                   <Link to="/login" className="block py-2 text-foreground hover:text-primary transition-smooth">
-                    Se connecter
+                    {t('header.login')}
                   </Link>
                   <Link to="/register" className="block py-2 text-foreground hover:text-primary transition-smooth">
-                    Créer un compte
+                    {t('header.register')}
                   </Link>
+                  <div className="flex items-center gap-2 py-2">
+                    <Globe className="w-4 h-4 text-muted-foreground" />
+                    <button
+                      onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+                      className="text-foreground hover:text-primary transition-smooth"
+                    >
+                      {language === 'fr' ? 'English' : 'Français'}
+                    </button>
+                  </div>
                 </div>
               </nav>
             </div>

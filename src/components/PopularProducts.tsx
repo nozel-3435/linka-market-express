@@ -1,5 +1,6 @@
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ProductCard } from './ProductCard';
 
 const popularProducts = [
@@ -72,6 +73,7 @@ const popularProducts = [
 ];
 
 export const PopularProducts = () => {
+  const { t } = useLanguage();
   return (
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -83,16 +85,16 @@ export const PopularProducts = () => {
                 <TrendingUp className="w-5 h-5 text-white" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                Nos produits populaires
+                {t('products.title')}
               </h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Découvrez les articles les plus appréciés par notre communauté de clients togolais
+              {t('products.subtitle')}
             </p>
           </div>
 
           <Button variant="outline" className="hidden md:flex items-center gap-2 group">
-            Voir tout
+            {t('products.view.all')}
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Button>
         </div>
@@ -110,7 +112,7 @@ export const PopularProducts = () => {
         {/* Mobile View All Button */}
         <div className="flex justify-center md:hidden">
           <Button className="btn-primary group w-full max-w-sm">
-            Voir tous les produits
+            {t('products.view.all.mobile')}
             <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
         </div>
@@ -119,19 +121,19 @@ export const PopularProducts = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-16 border-t border-border">
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">10k+</div>
-            <div className="text-muted-foreground">Produits vendus</div>
+            <div className="text-muted-foreground">{t('products.stats.sold')}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">500+</div>
-            <div className="text-muted-foreground">Commerçants partenaires</div>
+            <div className="text-muted-foreground">{t('products.stats.partners')}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">4.8/5</div>
-            <div className="text-muted-foreground">Note moyenne</div>
+            <div className="text-muted-foreground">{t('products.stats.rating')}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">2h</div>
-            <div className="text-muted-foreground">Livraison express</div>
+            <div className="text-muted-foreground">{t('products.stats.delivery')}</div>
           </div>
         </div>
       </div>

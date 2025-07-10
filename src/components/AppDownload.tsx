@@ -1,7 +1,9 @@
 import { Download, Smartphone, Star, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const AppDownload = () => {
+  const { t } = useLanguage();
   return (
     <section className="py-16 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       <div className="container mx-auto px-4">
@@ -10,36 +12,34 @@ export const AppDownload = () => {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-4">
               <Smartphone className="w-4 h-4 text-primary" />
-              <span className="text-primary text-sm font-medium">Application mobile</span>
+              <span className="text-primary text-sm font-medium">{t('app.badge')}</span>
             </div>
 
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Téléchargez l'application 
-              <span className="text-gradient block">Linka</span>
+              {t('app.title')}
             </h2>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Accédez à LinkaMarket où que vous soyez ! Commandez en quelques clics, 
-              suivez vos livraisons en temps réel et profitez d'offres exclusives.
+              {t('app.subtitle')}
             </p>
 
             {/* Features */}
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-foreground">Commandes rapides et sécurisées</span>
+                <span className="text-foreground">{t('app.feature.orders')}</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-foreground">Suivi de livraison en temps réel</span>
+                <span className="text-foreground">{t('app.feature.tracking')}</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-foreground">Notifications push pour vos commandes</span>
+                <span className="text-foreground">{t('app.feature.notifications')}</span>
               </div>
               <div className="flex items-center gap-3">
                 <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-foreground">Offres exclusives pour l'app mobile</span>
+                <span className="text-foreground">{t('app.feature.offers')}</span>
               </div>
             </div>
 
@@ -47,11 +47,11 @@ export const AppDownload = () => {
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button size="lg" className="btn-primary group flex-1 sm:flex-none">
                 <Download className="w-5 h-5 mr-2" />
-                App Store
+                {t('app.store.ios')}
               </Button>
               <Button size="lg" variant="outline" className="group flex-1 sm:flex-none border-2">
                 <Download className="w-5 h-5 mr-2" />
-                Google Play
+                {t('app.store.android')}
               </Button>
             </div>
 
@@ -63,7 +63,7 @@ export const AppDownload = () => {
                     <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">4.8/5 sur l'App Store</span>
+                <span className="text-sm text-muted-foreground">{t('app.rating')}</span>
               </div>
             </div>
           </div>

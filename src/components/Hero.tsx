@@ -1,8 +1,10 @@
 import { ArrowRight, Download, Play, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/contexts/LanguageContext';
 import heroBanner from '@/assets/hero-banner.jpg';
 
 export const Hero = () => {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background Image avec overlay */}
@@ -26,64 +28,62 @@ export const Hero = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6 animate-slide-up">
             <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="text-white text-sm font-medium">#1 Marketplace au Togo</span>
+            <span className="text-white text-sm font-medium">{t('hero.badge')}</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-slide-up leading-tight">
-            <span className="block">Consomme local,</span>
+            <span className="block">{t('hero.title.line1')}</span>
             <span className="block text-gradient bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              livre en un clic
+              {t('hero.title.line2')}
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl animate-slide-up leading-relaxed" style={{ animationDelay: '0.2s' }}>
-            Découvrez les meilleurs produits de vos commerçants togolais préférés. 
-            Livraison express avec <span className="font-semibold text-secondary">LinkaDrop</span> 
-            partout à Lomé en moins de 2h.
+            {t('hero.subtitle')}
           </p>
 
           {/* Stats */}
           <div className="flex flex-wrap gap-8 mb-10 animate-slide-up" style={{ animationDelay: '0.3s' }}>
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-white">500+</div>
-              <div className="text-white/80 text-sm">Commerçants</div>
+              <div className="text-white/80 text-sm">{t('hero.stats.merchants')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-white">10k+</div>
-              <div className="text-white/80 text-sm">Produits</div>
+              <div className="text-white/80 text-sm">{t('hero.stats.products')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-white">2h</div>
-              <div className="text-white/80 text-sm">Livraison max</div>
+              <div className="text-white/80 text-sm">{t('hero.stats.delivery')}</div>
             </div>
           </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
             <Button size="lg" className="btn-hero group">
-              Commencer mes achats
+              {t('hero.cta.shop')}
               <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
             
             <Button variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm">
               <Play className="w-4 h-4 mr-2" />
-              Voir la démo
+              {t('hero.cta.demo')}
             </Button>
           </div>
 
           {/* App Download Section */}
           <div className="mt-12 animate-slide-up" style={{ animationDelay: '0.5s' }}>
-            <p className="text-white/80 mb-4 font-medium">Téléchargez l'application Linka</p>
+            <p className="text-white/80 mb-4 font-medium">{t('hero.app.download')}</p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm">
                 <Download className="w-4 h-4 mr-2" />
-                App Store
+                {t('app.store.ios')}
               </Button>
               <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm">
                 <Download className="w-4 h-4 mr-2" />
-                Google Play
+                {t('app.store.android')}
               </Button>
             </div>
           </div>
