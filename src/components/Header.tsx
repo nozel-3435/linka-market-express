@@ -22,11 +22,11 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3 group">
             <img 
               src={linkaMarketLogo} 
               alt="LinkaMarket Logo" 
-              className="w-12 h-12 object-contain"
+              className="w-12 h-12 object-contain transition-transform duration-300 group-hover:scale-110"
             />
             <div>
               <span className="text-xl font-bold text-gradient">LinkaMarket</span>
