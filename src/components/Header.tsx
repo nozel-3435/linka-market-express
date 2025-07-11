@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import linkaMarketLogo from '@/assets/linkamarket-logo.png';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,10 +22,12 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">L</span>
-            </div>
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              src={linkaMarketLogo} 
+              alt="LinkaMarket Logo" 
+              className="w-12 h-12 object-contain"
+            />
             <div>
               <span className="text-xl font-bold text-gradient">LinkaMarket</span>
               <div className="text-xs text-muted-foreground">par LinkaDrop</div>

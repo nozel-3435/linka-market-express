@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail, Facebook, Instagram, Twitter, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import linkaMarketLogo from '@/assets/linkamarket-logo.png';
 
 export const Footer = () => {
   return (
@@ -9,10 +10,12 @@ export const Footer = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">L</span>
-              </div>
+            <div className="flex items-center space-x-3">
+              <img 
+                src={linkaMarketLogo} 
+                alt="LinkaMarket Logo" 
+                className="w-12 h-12 object-contain"
+              />
               <div>
                 <span className="text-xl font-bold text-white">LinkaMarket</span>
                 <div className="text-sm text-background/70">par LinkaDrop</div>
