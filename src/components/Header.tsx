@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { Search, ShoppingCart, Menu, X, User, LogIn, Globe } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,7 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { language, setLanguage, t } = useLanguage();
+  const { user, signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border">
@@ -83,24 +85,43 @@ export const Header = () => {
             </Link>
 
             {/* User Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <User className="w-4 h-4" />
-                  <span className="hidden lg:inline">{t('header.account')}</span>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <User className="w-4 h-4" />
+                    <span className="hidden lg:inline">Mon compte</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard">
+                      <User className="w-4 h-4 mr-2" />
+                      Tableau de bord
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={signOut}>
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Se déconnecter
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/login" className="gap-2">
+                    <LogIn className="w-4 h-4" />
+                    <span className="hidden lg:inline">{t('header.login')}</span>
+                  </Link>
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>
-                  <LogIn className="w-4 h-4 mr-2" />
-                  {t('header.login')}
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <User className="w-4 h-4 mr-2" />
-                  {t('header.register')}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <Button size="sm" asChild>
+                  <Link to="/register" className="gap-2">
+                    <User className="w-4 h-4" />
+                    <span className="hidden lg:inline">{t('header.register')}</span>
+                  </Link>
+                </Button>
+              </div>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}

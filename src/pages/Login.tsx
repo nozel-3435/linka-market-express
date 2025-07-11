@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, Mail, Lock, ArrowRight, ShoppingBag, Truck, Store } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,11 +14,41 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState<'client' | 'merchant' | 'driver'>('client');
+  const [loading, setLoading] = useState(false);
+  
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would integrate with Supabase authentication
-    console.log('Login attempt:', { email, password, userType });
+    setLoading(true);
+    
+    try {
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        toast({
+          title: "Erreur de connexion",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Connexion réussie",
+          description: "Vous êtes maintenant connecté",
+        });
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la connexion",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const userTypes = [
@@ -147,8 +179,8 @@ const Login = () => {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" className="btn-primary w-full group">
-              Se connecter
+            <Button type="submit" className="btn-primary w-full group" disabled={loading}>
+              {loading ? 'Connexion...' : 'Se connecter'}
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
           </form>

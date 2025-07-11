@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowRight, ShoppingBag, Truck, Store } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,14 +23,66 @@ const Register = () => {
     acceptTerms: false
   });
 
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would integrate with Supabase authentication
-    console.log('Registration attempt:', formData);
+    
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Erreur",
+        description: "Les mots de passe ne correspondent pas",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast({
+        title: "Erreur",
+        description: "Le mot de passe doit contenir au moins 8 caractères",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const { error } = await signUp(formData.email, formData.password, {
+        full_name: formData.name,
+        user_type: formData.userType,
+        phone: formData.phone
+      });
+      
+      if (error) {
+        toast({
+          title: "Erreur d'inscription",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Inscription réussie",
+          description: "Vérifiez votre email pour confirmer votre compte",
+        });
+        navigate('/login');
+      }
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'inscription",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const userTypes = [
@@ -231,9 +286,9 @@ const Register = () => {
             <Button 
               type="submit" 
               className="btn-primary w-full group"
-              disabled={!formData.acceptTerms}
+              disabled={!formData.acceptTerms || loading}
             >
-              Créer mon compte
+              {loading ? 'Création...' : 'Créer mon compte'}
               <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
           </form>
