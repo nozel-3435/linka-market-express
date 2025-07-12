@@ -3,14 +3,22 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ProductCard } from './ProductCard';
 
+// Import des images locales avec des personnes togolaises et marque LinkaMarket
+import productRice from '@/assets/product-rice-togo.jpg';
+import productPalmOil from '@/assets/product-palm-oil-togo.jpg';
+import productWaxFabric from '@/assets/product-wax-fabric-togo.jpg';
+import productMangoes from '@/assets/product-mangoes-togo.jpg';
+import productGari from '@/assets/product-gari-togo.jpg';
+import productSandals from '@/assets/product-sandals-togo.jpg';
+
 const popularProducts = [
   {
     id: '1',
     name: 'Riz jasmin parfumé Premium',
     price: 12500,
     originalPrice: 15000,
-    image: 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=400&h=300&fit=crop',
-    merchant: 'Marché Central',
+    image: productRice,
+    merchant: 'Marché Central LinkaMarket',
     rating: 4.8,
     reviewCount: 124,
     location: 'Lomé Centre',
@@ -20,8 +28,8 @@ const popularProducts = [
     id: '2',
     name: 'Huile de palme rouge artisanale',
     price: 8000,
-    image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop',
-    merchant: 'Coopérative Bio Togo',
+    image: productPalmOil,
+    merchant: 'Coopérative Bio Togo - LinkaMarket',
     rating: 4.9,
     reviewCount: 87,
     location: 'Kpalimé',
@@ -31,8 +39,8 @@ const popularProducts = [
     id: '3',
     name: 'Tissu wax authentique',
     price: 25000,
-    image: 'https://images.unsplash.com/photo-1594736797933-d0301ba2fe65?w=400&h=300&fit=crop',
-    merchant: 'Atelier Kente',
+    image: productWaxFabric,
+    merchant: 'Atelier Kente LinkaMarket',
     rating: 4.7,
     reviewCount: 156,
     location: 'Lomé Tokoin',
@@ -41,8 +49,8 @@ const popularProducts = [
     id: '4',
     name: 'Mangues Kent fraîches (1kg)',
     price: 3500,
-    image: 'https://images.unsplash.com/photo-1553279828-0c52d16a4eb3?w=400&h=300&fit=crop',
-    merchant: 'Fruits du Plateau',
+    image: productMangoes,
+    merchant: 'Fruits du Plateau - LinkaMarket',
     rating: 4.6,
     reviewCount: 92,
     location: 'Plateau',
@@ -53,8 +61,8 @@ const popularProducts = [
     name: 'Gari blanc premium (2kg)',
     price: 4500,
     originalPrice: 5200,
-    image: 'https://images.unsplash.com/photo-1597306013323-4b6ea8e2ed3e?w=400&h=300&fit=crop',
-    merchant: 'Tradition Togolaise',
+    image: productGari,
+    merchant: 'Tradition Togolaise LinkaMarket',
     rating: 4.8,
     reviewCount: 203,
     location: 'Agoè',
@@ -64,8 +72,8 @@ const popularProducts = [
     id: '6',
     name: 'Sandales en cuir fait main',
     price: 18000,
-    image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop',
-    merchant: 'Artisan Cuir Togo',
+    image: productSandals,
+    merchant: 'Artisan Cuir Togo - LinkaMarket',
     rating: 4.5,
     reviewCount: 67,
     location: 'Sokodé',

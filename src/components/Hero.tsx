@@ -1,7 +1,7 @@
 import { ArrowRight, Download, Play, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroBanner from '@/assets/hero-banner.jpg';
+import heroBanner from '@/assets/hero-banner-togo.jpg';
 
 export const Hero = () => {
   const { t } = useLanguage();
@@ -11,7 +11,7 @@ export const Hero = () => {
       <div className="absolute inset-0">
         <img 
           src={heroBanner} 
-          alt="LinkaMarket Hero" 
+          alt="LinkaMarket by LinkaDrop - E-commerce Togo" 
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
