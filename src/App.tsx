@@ -12,6 +12,24 @@ import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import NotFound from "./pages/NotFound";
 
+// Pages clients
+import ClientHome from "./pages/client/ClientHome";
+import Cart from "./pages/client/Cart";
+import Favorites from "./pages/client/Favorites";
+import ClientOrders from "./pages/client/ClientOrders";
+import ClientProfile from "./pages/client/ClientProfile";
+
+// Pages commerçants
+import MerchantDashboard from "./pages/merchant/MerchantDashboard";
+import MerchantProducts from "./pages/merchant/MerchantProducts";
+import MerchantOrders from "./pages/merchant/MerchantOrders";
+import MerchantStats from "./pages/merchant/MerchantStats";
+
+// Pages livreurs
+import DriverDashboard from "./pages/driver/DriverDashboard";
+import DriverDeliveries from "./pages/driver/DriverDeliveries";
+import DriverMap from "./pages/driver/DriverMap";
+
 const queryClient = new QueryClient();
 
 const App = () => (
