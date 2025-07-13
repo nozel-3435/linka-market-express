@@ -25,8 +25,8 @@ const statusConfig = {
 export default function MerchantOrders() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [orders, setOrders] = useState([]);
-  const [shop, setShop] = useState(null);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [shop, setShop] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
 
@@ -79,7 +79,7 @@ export default function MerchantOrders() {
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     const { error } = await supabase
       .from('orders')
-      .update({ status: newStatus })
+      .update({ status: newStatus as any })
       .eq('id', orderId);
 
     if (!error) {
@@ -88,7 +88,7 @@ export default function MerchantOrders() {
         .from('order_status_history')
         .insert({
           order_id: orderId,
-          status: newStatus,
+          status: newStatus as any,
           changed_by: user?.id,
           notes: `Statut mis à jour par le commerçant`
         });
@@ -96,12 +96,12 @@ export default function MerchantOrders() {
       fetchOrders();
       toast({
         title: "Statut mis à jour",
-        description: `La commande est maintenant ${statusConfig[newStatus]?.label}.`,
+        description: `La commande est maintenant ${(statusConfig as any)[newStatus]?.label}.`,
       });
     }
   };
 
-  const filteredOrders = orders.filter(order => {
+  const filteredOrders = orders.filter((order: any) => {
     if (activeTab === 'all') return true;
     if (activeTab === 'pending') return ['pending', 'confirmed'].includes(order.status);
     if (activeTab === 'preparing') return order.status === 'preparing';
@@ -110,8 +110,8 @@ export default function MerchantOrders() {
     return true;
   });
 
-  const getOrderTotal = (order) => {
-    return order.order_items.reduce((total, item) => total + parseFloat(item.total_price), 0) + parseFloat(order.delivery_fee);
+  const getOrderTotal = (order: any) => {
+    return order.order_items.reduce((total: number, item: any) => total + parseFloat(item.total_price), 0) + parseFloat(order.delivery_fee || 0);
   };
 
   if (!shop) {
@@ -175,10 +175,10 @@ export default function MerchantOrders() {
                         <Badge variant={statusConfig[order.status]?.color as any}>
                           {statusConfig[order.status]?.label}
                         </Badge>
-                        {statusConfig[order.status]?.next && (
+                        {(statusConfig as any)[order.status]?.next && (
                           <Button
                             size="sm"
-                            onClick={() => updateOrderStatus(order.id, statusConfig[order.status].next)}
+                            onClick={() => updateOrderStatus(order.id, (statusConfig as any)[order.status].next)}
                           >
                             Suivant
                           </Button>

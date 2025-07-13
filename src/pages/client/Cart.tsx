@@ -14,9 +14,9 @@ import { supabase } from '@/integrations/supabase/client';
 export default function Cart() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [cartItems, setCartItems] = useState([]);
-  const [addresses, setAddresses] = useState([]);
-  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState('');
   const [selectedPayment, setSelectedPayment] = useState('');
   const [loading, setLoading] = useState(true);
@@ -95,8 +95,8 @@ export default function Cart() {
       .eq('id', itemId);
 
     if (!error) {
-      setCartItems(items =>
-        items.map(item =>
+      setCartItems((items: any[]) =>
+        items.map((item: any) =>
           item.id === itemId ? { ...item, quantity: newQuantity } : item
         )
       );
@@ -110,7 +110,7 @@ export default function Cart() {
       .eq('id', itemId);
 
     if (!error) {
-      setCartItems(items => items.filter(item => item.id !== itemId));
+      setCartItems((items: any[]) => items.filter((item: any) => item.id !== itemId));
       toast({
         title: "Produit retiré",
         description: "Le produit a été retiré de votre panier.",
@@ -119,8 +119,8 @@ export default function Cart() {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => 
-      total + (item.products.price * item.quantity), 0
+    return cartItems.reduce((total: number, item: any) => 
+      total + (parseFloat(item.products.price) * item.quantity), 0
     );
   };
 
@@ -135,7 +135,7 @@ export default function Cart() {
     }
 
     // Grouper les articles par boutique
-    const ordersByShop = cartItems.reduce((acc, item) => {
+    const ordersByShop = cartItems.reduce((acc: any, item: any) => {
       const shopId = item.products.shop_id;
       if (!acc[shopId]) {
         acc[shopId] = [];
@@ -146,8 +146,8 @@ export default function Cart() {
 
     // Créer une commande pour chaque boutique
     for (const [shopId, items] of Object.entries(ordersByShop)) {
-      const totalAmount = items.reduce((sum, item) => 
-        sum + (item.products.price * item.quantity), 0
+      const totalAmount = (items as any[]).reduce((sum: number, item: any) => 
+        sum + (parseFloat(item.products.price) * item.quantity), 0
       );
 
       const { data: order, error: orderError } = await supabase
@@ -166,12 +166,12 @@ export default function Cart() {
 
       if (!orderError && order) {
         // Ajouter les articles à la commande
-        const orderItems = items.map(item => ({
+        const orderItems = (items as any[]).map((item: any) => ({
           order_id: order.id,
           product_id: item.product_id,
           quantity: item.quantity,
-          unit_price: item.products.price,
-          total_price: item.products.price * item.quantity
+          unit_price: parseFloat(item.products.price),
+          total_price: parseFloat(item.products.price) * item.quantity
         }));
 
         await supabase.from('order_items').insert(orderItems);

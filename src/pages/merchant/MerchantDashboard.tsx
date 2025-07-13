@@ -16,8 +16,8 @@ export default function MerchantDashboard() {
     totalRevenue: 0,
     totalProducts: 0
   });
-  const [recentOrders, setRecentOrders] = useState([]);
-  const [shop, setShop] = useState(null);
+  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [shop, setShop] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,10 +55,10 @@ export default function MerchantDashboard() {
 
     if (orders) {
       const totalOrders = orders.length;
-      const pendingOrders = orders.filter(o => ['pending', 'confirmed', 'preparing'].includes(o.status)).length;
+      const pendingOrders = orders.filter((o: any) => ['pending', 'confirmed', 'preparing'].includes(o.status)).length;
       const totalRevenue = orders
-        .filter(o => o.status === 'delivered')
-        .reduce((sum, order) => sum + parseFloat(order.total_amount), 0);
+        .filter((o: any) => o.status === 'delivered')
+        .reduce((sum: number, order: any) => sum + parseFloat(order.total_amount.toString()), 0);
 
       setStats({
         totalOrders,

@@ -9,7 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 export default function MerchantStats() {
   const { user } = useAuth();
-  const [shop, setShop] = useState(null);
+  const [shop, setShop] = useState<any>(null);
   const [period, setPeriod] = useState('30');
   const [stats, setStats] = useState({
     totalRevenue: 0,
@@ -17,7 +17,7 @@ export default function MerchantStats() {
     averageOrderValue: 0,
     topProducts: [],
     revenueByDay: [],
-    ordersByStatus: {}
+    ordersByStatus: {} as any
   });
   const [loading, setLoading] = useState(true);
 
@@ -65,37 +65,37 @@ export default function MerchantStats() {
     if (orders) {
       // Calculer les statistiques
       const totalOrders = orders.length;
-      const deliveredOrders = orders.filter(o => o.status === 'delivered');
-      const totalRevenue = deliveredOrders.reduce((sum, order) => 
-        sum + parseFloat(order.total_amount), 0
+      const deliveredOrders = orders.filter((o: any) => o.status === 'delivered');
+      const totalRevenue = deliveredOrders.reduce((sum: number, order: any) => 
+        sum + parseFloat(order.total_amount.toString()), 0
       );
       const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
       // Commandes par statut
-      const ordersByStatus = orders.reduce((acc, order) => {
+      const ordersByStatus = orders.reduce((acc: any, order: any) => {
         acc[order.status] = (acc[order.status] || 0) + 1;
         return acc;
       }, {});
 
       // Produits les plus vendus
-      const productSales = {};
-      orders.forEach(order => {
-        order.order_items.forEach(item => {
+      const productSales: any = {};
+      orders.forEach((order: any) => {
+        order.order_items.forEach((item: any) => {
           const productName = item.products.name;
-          productSales[productName] = (productSales[productName] || 0) + item.quantity;
+          productSales[productName] = (productSales[productName] || 0) + parseInt(item.quantity.toString());
         });
       });
 
       const topProducts = Object.entries(productSales)
-        .sort(([,a], [,b]) => b - a)
+        .sort(([,a], [,b]) => (b as number) - (a as number))
         .slice(0, 5)
         .map(([name, quantity]) => ({ name, quantity }));
 
       // Chiffre d'affaires par jour
-      const revenueByDay = {};
-      deliveredOrders.forEach(order => {
+      const revenueByDay: any = {};
+      deliveredOrders.forEach((order: any) => {
         const date = new Date(order.created_at).toLocaleDateString('fr-FR');
-        revenueByDay[date] = (revenueByDay[date] || 0) + parseFloat(order.total_amount);
+        revenueByDay[date] = (revenueByDay[date] || 0) + parseFloat(order.total_amount.toString());
       });
 
       const revenueData = Object.entries(revenueByDay)
@@ -193,7 +193,7 @@ export default function MerchantStats() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {stats.ordersByStatus.delivered || 0}
+                    {(stats.ordersByStatus as any).delivered || 0}
                   </div>
                 </CardContent>
               </Card>
@@ -211,7 +211,7 @@ export default function MerchantStats() {
                     {Object.entries(stats.ordersByStatus).map(([status, count]) => (
                       <div key={status} className="flex justify-between items-center">
                         <span className="capitalize">{status}</span>
-                        <span className="font-semibold">{count}</span>
+                        <span className="font-semibold">{count as number}</span>
                       </div>
                     ))}
                   </div>
@@ -225,7 +225,7 @@ export default function MerchantStats() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {stats.topProducts.map((product, index) => (
+                    {stats.topProducts.map((product: any, index: number) => (
                       <div key={index} className="flex justify-between items-center">
                         <span className="truncate">{product.name}</span>
                         <span className="font-semibold">{product.quantity} vendus</span>
@@ -249,10 +249,10 @@ export default function MerchantStats() {
                   <p className="text-muted-foreground">Aucune vente sur cette période.</p>
                 ) : (
                   <div className="space-y-2">
-                    {stats.revenueByDay.slice(-10).map((item, index) => (
+                    {stats.revenueByDay.slice(-10).map((item: any, index: number) => (
                       <div key={index} className="flex justify-between items-center p-2 border rounded">
                         <span>{item.date}</span>
-                        <span className="font-semibold">{item.revenue.toLocaleString()} FCFA</span>
+                        <span className="font-semibold">{(item.revenue as number).toLocaleString()} FCFA</span>
                       </div>
                     ))}
                   </div>

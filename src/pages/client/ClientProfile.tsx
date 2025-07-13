@@ -17,10 +17,11 @@ import { supabase } from '@/integrations/supabase/client';
 export default function ClientProfile() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [addresses, setAddresses] = useState([]);
-  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [addresses, setAddresses] = useState<any[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingProfile, setEditingProfile] = useState(false);
+  const [profile, setProfile] = useState<any>(null);
 
   // États pour les formulaires
   const [profileData, setProfileData] = useState({
@@ -57,6 +58,7 @@ export default function ClientProfile() {
       .single();
 
     if (data) {
+      setProfile(data);
       setProfileData({
         full_name: data.full_name || '',
         email: data.email || ''
@@ -95,7 +97,7 @@ export default function ClientProfile() {
       .eq('user_id', user?.id);
 
     if (!error) {
-      await updateProfile();
+      await fetchProfile();
       setEditingProfile(false);
       toast({
         title: "Profil mis à jour",
