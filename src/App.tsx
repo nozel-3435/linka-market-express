@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Pages clients
 import ClientHome from "./pages/client/ClientHome";
@@ -44,9 +45,29 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products" element={<Products />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              
+              {/* Routes protégées */}
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              
+              {/* Routes client */}
+              <Route path="/client" element={<ProtectedRoute userType="client"><ClientHome /></ProtectedRoute>} />
+              <Route path="/client/cart" element={<ProtectedRoute userType="client"><Cart /></ProtectedRoute>} />
+              <Route path="/client/favorites" element={<ProtectedRoute userType="client"><Favorites /></ProtectedRoute>} />
+              <Route path="/client/orders" element={<ProtectedRoute userType="client"><ClientOrders /></ProtectedRoute>} />
+              <Route path="/client/profile" element={<ProtectedRoute userType="client"><ClientProfile /></ProtectedRoute>} />
+              
+              {/* Routes commerçant */}
+              <Route path="/merchant" element={<ProtectedRoute userType="merchant"><MerchantDashboard /></ProtectedRoute>} />
+              <Route path="/merchant/products" element={<ProtectedRoute userType="merchant"><MerchantProducts /></ProtectedRoute>} />
+              <Route path="/merchant/orders" element={<ProtectedRoute userType="merchant"><MerchantOrders /></ProtectedRoute>} />
+              <Route path="/merchant/stats" element={<ProtectedRoute userType="merchant"><MerchantStats /></ProtectedRoute>} />
+              
+              {/* Routes livreur */}
+              <Route path="/driver" element={<ProtectedRoute userType="driver"><DriverDashboard /></ProtectedRoute>} />
+              <Route path="/driver/deliveries" element={<ProtectedRoute userType="driver"><DriverDeliveries /></ProtectedRoute>} />
+              <Route path="/driver/map" element={<ProtectedRoute userType="driver"><DriverMap /></ProtectedRoute>} />
+              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

@@ -4,14 +4,22 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
 
-export default function Dashboard() {
-  const { user } = useAuth();
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  userType?: 'client' | 'merchant' | 'driver';
+}
+
+export default function ProtectedRoute({ children, userType }: ProtectedRouteProps) {
+  const { user, loading } = useAuth();
   const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      if (!user) return;
+      if (!user) {
+        setProfileLoading(false);
+        return;
+      }
 
       try {
         const { data, error } = await supabase
@@ -28,14 +36,15 @@ export default function Dashboard() {
       } catch (error) {
         console.error('Error:', error);
       } finally {
-        setLoading(false);
+        setProfileLoading(false);
       }
     };
 
     fetchProfile();
   }, [user]);
 
-  if (loading) {
+  // Show loading while checking auth
+  if (loading || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -43,12 +52,19 @@ export default function Dashboard() {
     );
   }
 
-  // Redirect based on user type
-  if (profile?.user_type) {
-    return <Navigate to={`/${profile.user_type}`} replace />;
+  // Redirect to login if not authenticated
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
 
-  // Fallback to client if no profile found
-  return <Navigate to="/client" replace />;
-}
+  // Check user type if specified
+  if (userType && profile?.user_type !== userType) {
+    // Redirect to appropriate dashboard based on user type
+    const redirectPath = profile?.user_type 
+      ? `/${profile.user_type}` 
+      : '/dashboard';
+    return <Navigate to={redirectPath} replace />;
+  }
 
+  return <>{children}</>;
+}
