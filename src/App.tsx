@@ -10,6 +10,13 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
+import Merchants from "./pages/Merchants";
+import BecomeMerchant from "./pages/BecomeMerchant";
+import BecomeDriver from "./pages/BecomeDriver";
+import Support from "./pages/Support";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import LinkaDrop from "./pages/LinkaDrop";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -46,6 +53,13 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/products" element={<Products />} />
+              <Route path="/merchants" element={<Merchants />} />
+              <Route path="/become-merchant" element={<BecomeMerchant />} />
+              <Route path="/become-driver" element={<BecomeDriver />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/linkadrop" element={<LinkaDrop />} />
               
               {/* Routes protégées */}
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
