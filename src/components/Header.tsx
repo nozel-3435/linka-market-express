@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from 'next-themes';
 import { useAuth } from '@/hooks/useAuth';
-import { Search, ShoppingCart, Menu, X, User, LogIn, Globe } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, User, LogIn, Globe, Sun, Moon, Monitor } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +19,7 @@ export const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { language, setLanguage, t } = useLanguage();
   const { user, signOut } = useAuth();
+  const { setTheme, theme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border">
@@ -58,6 +60,31 @@ export const Header = () => {
               {t('header.merchants')}
             </Link>
             
+            {/* Theme Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-2">
+                  {theme === 'light' ? <Sun className="w-4 h-4" /> : 
+                   theme === 'dark' ? <Moon className="w-4 h-4" /> : 
+                   <Monitor className="w-4 h-4" />}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-32">
+                <DropdownMenuItem onClick={() => setTheme('light')} className={theme === 'light' ? 'bg-primary/10' : ''}>
+                  <Sun className="w-4 h-4 mr-2" />
+                  Clair
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme('dark')} className={theme === 'dark' ? 'bg-primary/10' : ''}>
+                  <Moon className="w-4 h-4 mr-2" />
+                  Sombre
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme('system')} className={theme === 'system' ? 'bg-primary/10' : ''}>
+                  <Monitor className="w-4 h-4 mr-2" />
+                  Système
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
